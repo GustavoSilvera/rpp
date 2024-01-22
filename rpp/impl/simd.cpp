@@ -16,6 +16,19 @@ template<i32 T>
     return {(floatT)(v)};
 }
 
+#if !IS_BIG_ENDIAN
+template<>
+[[nodiscard]] F32x<4> F32x<4>::set(f32 a, f32 b, f32 c, f32 d) noexcept {
+    return {(float4){d, c, b, a}}; /// reversed
+}
+
+template<>
+[[nodiscard]] F32x<8> F32x<8>::set(f32 a, f32 b, f32 c, f32 d, f32 e, f32 f, f32 g,
+                                   f32 h) noexcept {
+    return {(float8){h, g, f, e, d, c, b, a}}; /// reversed
+}
+#endif
+
 template<i32 T>
 [[nodiscard]] F32x<T> F32x<T>::zero() noexcept {
     return set1(0);
